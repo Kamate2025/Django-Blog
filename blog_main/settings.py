@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-p)gef3yhfq)tro0d&^nb!*opj6d0cb&5q^rrtf0cxm3qzled-u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'vercel.com/',
+    'localhost',
+    'django-blog-kamate-ntuyenabos-projects.vercel.app/',
+]
 
 
 # Application definition
@@ -37,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'blogs',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +125,6 @@ STATIC_ROOT = BASE_DIR / "static"
 STATICFILES_DIRS = [
     'blog_main/static',
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR /'media'
