@@ -9,6 +9,5 @@ class BlogAdmin(admin.ModelAdmin):
     list_editable = ('is_featured',)
     
 
-
 admin.site.register(Category)
 admin.site.register(Blog, BlogAdmin)
