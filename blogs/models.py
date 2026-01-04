@@ -36,3 +36,28 @@ class Blog(models.Model):
     def __str__(self):
         return self.title
 
+class AboutUs(models.Model):
+    about_us_title = models.CharField(max_length=100)
+    about_us_description = models.TextField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = 'About Us'
+        ordering = ['-created_at',]
+        
+    def __str__(self):
+        return self.about_us_title
+    
+class SocialMedia(models.Model):
+    social_media_name = models.CharField(max_length=50)
+    link = models.URLField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Social Media'
+        
+    def __str__(self):
+        return self.social_media_name
+
