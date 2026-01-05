@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from blogs.models import Blog, AboutUs, SocialMedia # Category [Check context processors]
+from .forms import RegistrationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import auth
 
 
 def home(request):    
@@ -14,3 +17,42 @@ def home(request):
         'about_us_section': about_us_section,
     }
     return render(request, 'homepage.html', context)
+
+
+def register(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('register')
+        else:
+            print(form.errors)
+    else:
+        form = RegistrationForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'register.html', context)
+
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                return redirect('home')
+    else:        
+        form = AuthenticationForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'login.html', context)
+
+
+def logout(request):
+    auth.logout()
+    return redirect('home')
