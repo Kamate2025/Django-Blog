@@ -5,7 +5,7 @@
 <h3 class="text-center">Login</h3>
 <form action="" method="POST" style="width: 400px; margin: auto;">
     {% csrf_token %}
-    {{form | crispy}}
+    {{form|crispy }}
 <button type="submit" class="btn btn-warning">Login</button>
 </form>
 {% endblock %}

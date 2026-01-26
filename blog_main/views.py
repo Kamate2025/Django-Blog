@@ -44,7 +44,7 @@ def login(request):
             
             user = auth.authenticate(username=username, password=password)
             if user is not None:
-                return redirect('home')
+                return redirect('dashboard')
     else:        
         form = AuthenticationForm()
     context = {
@@ -54,5 +54,5 @@ def login(request):
 
 
 def logout(request):
-    auth.logout()
+    auth.logout
     return redirect('home')
