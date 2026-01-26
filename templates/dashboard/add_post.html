@@ -7,12 +7,12 @@
     {% include 'dashboard/sidebar.html' %}
 
     <div class="col-md-9">
-        <h2>Add Category</h2>
-        <form action="{% url 'add_category' %}" method="POST">
+        <h2>Add Blog Post</h2>
+        <form action="{% url 'add_post' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form | crispy }}
             <button type="submit" class="btn btn-warning">Save</button>
-            <a href="{% url 'cat_add_cancel' %}"><span class="btn btn-warning">Cancel</span></a>
+            <a href=""><span class="btn btn-warning">Cancel</span></a>
         </form>
     </div>
 
