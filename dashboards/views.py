@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from blogs.models import Category, Blog
 from django.contrib.auth.decorators import login_required
 from .forms import BlogForm, CategoryForm
+from django.utils.text import slugify
 
 
 @login_required(login_url='login')
@@ -68,9 +69,33 @@ def add_post(request):
             post = form.save(commit=False) #save form data temporarily
             post.author = request.user
             post.save()
+            title = form.cleaned_data['title']
+            post.slug = slugify(title) + '-' + str(post.id)
+            post.save()
             return redirect('posts')
     form = BlogForm()
     context = {
         'form': form,
     }
     return render(request, 'dashboard/add_post.html', context)
+
+def delete_post(request, pk):
+    post = get_object_or_404(Blog, pk=pk)
+    post.delete()
+    return redirect('posts')
+
+def edit_post(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    if request.method == 'POST':
+        form = BlogForm(request.POST, request.FILES, instance=blog)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            blog.slug = slugify(title) + '-' + str(blog.id)
+            form.save()
+            return redirect('posts')
+    form = BlogForm(instance=blog)        
+    context = {
+        'form': form,
+        'blog': blog,
+    }
+    return render(request, 'dashboard/edit_post.html', context)
