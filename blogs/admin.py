@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Category, Blog, AboutUs, SocialMedia
+from .models import Category, Blog, AboutUs, Comments, SocialMedia
 
 
 class BlogAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ('title',)
         }
-    list_display = ('title', 'category', 'author', 'status', 'is_featured')
+    list_display = ('title', 'category', 'author', 'status', 'is_featured', 'featured_image')
     search_fields = ('id', 'title', 'category__category_name')
     list_editable = ('is_featured', 'status',)
     
@@ -24,8 +24,13 @@ class AboutUsAdmin(admin.ModelAdmin):
 class SocialMediaAdmin(admin.ModelAdmin):
     list_display = ('social_media_name', 'link')
 
+
+class CommentsAdmin(admin.ModelAdmin):
+    list_display = ('comment', 'blog__title')
+    
+    
 admin.site.register(Category)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(AboutUs, AboutUsAdmin)
 admin.site.register(SocialMedia, SocialMediaAdmin)
-
+admin.site.register(Comments, CommentsAdmin)

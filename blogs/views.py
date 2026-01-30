@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponse
-from .models import Blog, Category
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import Blog, Category, Comments
 from django.db.models import Q
 
 
@@ -26,8 +26,19 @@ def test(request):
 
 def blogs(request, slug):
     single_blog_post = get_object_or_404(Blog, status='Published', slug=slug)
+    if request.method == 'POST':
+        comments = Comments()
+        comments.blog = single_blog_post
+        comments.user = request.user
+        comments.comment = request.POST['comment-box']
+        comments.save()
+        return HttpResponseRedirect(request.path)
+    comment = Comments.objects.filter(blog=single_blog_post)
+    comment_counter = comment.count()
     context = {
         'single_blog_post': single_blog_post,
+        'comment': comment,
+        'comment_counter': comment_counter,
     }
     return render(request, 'blogs.html', context)
 

@@ -33,6 +33,27 @@
           <p class="fs-5 mb-4">{{single_blog_post.short_description}}</p>
           <p class="fs-5 mb-4">{{single_blog_post.blog_body}}</p>
         </section>
+        <h4>Comments ({{comment_counter}})</h4>
+        <div class="card">
+          {% for i in comment %}
+          <p class="mb-0">{{i.comment}}</p>
+          <p class="mb-1">{{i.user}} | {{i.created_at|timesince}} ago</p>
+          {% endfor %}
+        </div>
+        <div class="card">
+          {% if user.is_authenticated %}
+          <form action="" method="POST" class="mt-3 form-control">
+            {% csrf_token %}
+            <h5>Add Comment</h5>
+            <textarea name="comment-box" ></textarea>
+            <input type="submit" value="Submit">
+          </form>
+          {% else %}
+          <br>
+          <p><span><a href="{% url 'login' %}">Login</a></span> to comment</p>
+          {% endif %}
+        </div>
+
       </article>
     </div>
     <!-- Side widgets-->
