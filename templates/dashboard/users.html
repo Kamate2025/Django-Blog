@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <!-- Left side -->
+    <!-- Load the sidebar -->
+    {% include 'dashboard/sidebar.html' %}
+    <div class="col-9">
+        <h3>All Users</h3>
+        <a href="{% url 'add_user' %}"><span class="float-right bg-warning text-dark p-2"><b>Add New</b></span></a>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Usernane</th>
+                    <th>E-mail</th>
+                    <th>Is_Active?</th>
+                    <th>Is_Staff?</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <td>{{ user.first_name }} {{ user.last_name }} </td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{% if user.is_active %}<i class="fa fa-check text-success"></i>{% else %}<i class="fa fa-times text-danger"></i>{% endif %}</td>
+                    <td>{% if user.is_staff %}<i class="fa fa-check text-success"></i>{% else %}<i class="fa fa-times text-danger"></i>{% endif %}</td>                    
+                    <td>
+                        <a href="{% url 'edit_user' user.pk %}"><i class="fa fa-edit text-success"></i></a>
+                        &nbsp
+                        <a href="{% url 'delete_user' user.pk %}"><i class="fa fa-trash text-danger"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
